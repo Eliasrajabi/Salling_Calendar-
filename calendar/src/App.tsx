@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './index.css';
 import Calendar from 'react-calendar';
-import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css';
 import { Holiday } from './Interface';
 import { token, holidaysURL } from './API';
 import { CalendarContainer } from './CalendarContainer';
+import  HolidayChecker  from './HolidayChecker';
 
 const App: React.FC = () => {
   const [holidays, setHolidays] = useState<Holiday[]>([]);
@@ -38,16 +38,32 @@ const App: React.FC = () => {
     fetchHolidays().then(r => console.log('fetchHolidays', r));
   }, [holidays]);
 
+  const isHoliday = (date: Date): boolean => {
+    return holidays.some(h => h.date === date.toISOString().split('T')[0]);
+  }
+  
+    const getHolidaysWithinPeriod = (start: Date, end: Date): Holiday[] => {
+        return holidays.filter(h => h.date >= start.toISOString().split('T')[0] && h.date <= end.toISOString().split('T')[0]);
+    }
+    
+  
   
   return (
       <div className="bg-gray-50 border   ">
-        <h1 className="text-2xl font-bold text-center p-4">Holidays in Denmark</h1>
+      
+        <h1 className="text-2xl font-bold text-center p-4 ">Holidays in Denmark</h1>
+        <HolidayChecker
+            isHoliday={isHoliday}
+            getHolidaysWithinPeriod={getHolidaysWithinPeriod}
+        />
         {loading ? (
             <p>Loading...</p>
         ) : (
             <div>
+           
               <CalendarContainer>
                 <Calendar
+                    
                     tileContent={({date}) => {
                       const holiday = holidays.find(h => h.date === date.toISOString().split('T')[0]);
                       return holiday ? <p className="text-red-500">{holiday.name}</p> : null;
@@ -57,10 +73,13 @@ const App: React.FC = () => {
                       if (view === 'month' && date.toDateString() === new Date().toDateString()) {
                         return 'today';
                       }
-
+          
                     }}
+                    
                 />
+                
               </CalendarContainer>
+              
             </div>
         )}
 
@@ -68,6 +87,5 @@ const App: React.FC = () => {
 
   );
 };
-
 
 export default App;

@@ -3,7 +3,7 @@
 export const CalendarContainer = styled.div`
 
     .react-calendar {
-      max-width: 60%;
+      max-width: 40%;
       background: #faf7f7;
       border: 1px solid #bbb9b9;
       border-radius: 10px;
@@ -11,7 +11,7 @@ export const CalendarContainer = styled.div`
       font-family: Arial, sans-serif;
       line-height: 1.125;
       width: 50%;
-      margin: 50px auto;
+      margin: 0px auto;
       padding: 10px;
       
       .react-calendar__navigation {
