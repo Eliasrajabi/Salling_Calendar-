@@ -46,8 +46,6 @@ const App: React.FC = () => {
         return holidays.filter(h => h.date >= start.toISOString().split('T')[0] && h.date <= end.toISOString().split('T')[0]);
     }
     
-  
-  
   return (
       <div className="bg-gray-50 border   ">
       
